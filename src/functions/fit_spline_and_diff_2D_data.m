@@ -18,16 +18,16 @@ function [dpp, pp] = fit_spline_and_diff_2D_data(X_MAT, Y_MAT, varargin)
     % Fit splines for each row/column of the matrix
     [num_rows, num_cols] = size(X_MAT);
     if p.Results.fit_dimension == 1
-         pp = cell(1, size(X_MAT,2));
-         dpp = cell(1,size(X_MAT,2));
+         pp = cell(size(X_MAT,2),1);
+         dpp = cell(size(X_MAT,2),1);
        for i = 1:num_rows
           x_vec = (X_MAT(i, :))';
           y_vec = (Y_MAT(i, :))';
           [dpp{i}, pp{i}] = fit_spline_and_diff(x_vec, y_vec, 'clamping', p.Results.clamping,  'derivative_order', p.Results.derivative_order);
        end
     elseif p.Results.fit_dimension == 2
-         pp = cell(1, size(X_MAT,1));
-         dpp = cell(1,size(X_MAT,1));
+         pp = cell(size(X_MAT,1),1);
+         dpp = cell(size(X_MAT,1),1);
        for i = 1:num_cols
           x_vec = X_MAT(:,i);
           y_vec = Y_MAT(:,i);
