@@ -29,16 +29,16 @@ fprintf('Fitting splines to C fields...\n');
 
 %% Compute hrr norm sensitivities
 Sensitivities = struct();
-threshold.CH4 = 100;
-threshold.T = 1e4;
-[Sensitivities] = compute_hrr_norm_sensitivities(Sensitivities,Spline_fields, LES, Constant, threshold);
+Thld.dCH4 = 100; % threshold for CH4 sensitivities
+Thld.dT = 1e4; % threshold for Temperature sensitivities
+[Sensitivities] = compute_hrr_norm_sensitivities(Sensitivities,Spline_fields, LES, Constant);
 
 %% Plot hrr norm sensitivities
 % plot_sensitivities(Sensitivities, LES.Comb.R1, LES.Comb.Z1, Constant);
 
 %%  Compute hrr src term sensitivities
-threshold.C = 1e4;
-[Sensitivities] = compute_hrr_src_term_sensitivities(Sensitivities,Spline_fields, LES, Constant, threshold);
+Thld.dT = 1e4;
+[Sensitivities] = compute_hrr_src_term_sensitivities(Sensitivities,Spline_fields, LES, Constant);
 
 %% Plot hrr norm and src term sensitivities
 % plot_sensitivities(Sensitivities, LES.Comb.R1, LES.Comb.Z1, Constant);

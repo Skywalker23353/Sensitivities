@@ -29,20 +29,22 @@ fprintf('Fitting splines to C fields...\n');
 
 %% Compute hrr norm sensitivities
 Sensitivities = struct();
-T_threshold = 0.31;
-[Sensitivities] = compute_hrr_norm_sensitivities(Sensitivities,Spline_fields, LES, Constant, T_threshold);
+Thld.dT = 0.2;
+Thld.dCH4 = 30;
+[Sensitivities] = compute_hrr_norm_sensitivities(Sensitivities,Spline_fields, LES, Constant, 'threshold',Thld);
 
 %% Plot hrr norm sensitivities
 % plot_sensitivities(Sensitivities, LES.Comb.R1, LES.Comb.Z1, Constant);
 
 %%  Compute hrr src term sensitivities
-[Sensitivities] = compute_hrr_src_term_sensitivities(Sensitivities,Spline_fields, LES, Constant);
+Thld.dT = 0.31;
+[Sensitivities] = compute_hrr_src_term_sensitivities(Sensitivities,Spline_fields, LES, Constant, 'threshold',Thld);
 
 %% Plot hrr norm and src term sensitivities
 % plot_sensitivities(Sensitivities, LES.Comb.R1, LES.Comb.Z1, Constant);
 
 %%  Compute chem src terms sensitivities
-[Sensitivities] = compute_chem_src_term_sensitivities(Sensitivities,Spline_fields, LES, Constant);
+[Sensitivities] = compute_chem_src_term_sensitivities(Sensitivities,Spline_fields, LES, Constant,'remove_spikes',true);
 
 %% Set nozzle sensitivities 
 [Sensitivities] = set_noz_sensitivities(Sensitivities,LES.Noz);
