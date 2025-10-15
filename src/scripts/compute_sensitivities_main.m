@@ -8,17 +8,19 @@ addpath('/work/home/satyam/satyam_files/CH4_jet_PF/2025_Runs/Sensitivities/confi
 write_to_h5_file_flag = true;
 h5filename = 'Reactants_6';
 % Load paths and constants
-sensitivity_constants;  %adding vars to workspace
+sensitivity_constants;  
 % Load input field configurations
-C_cond_field_name; % Load field configurations
+C_cond_field_name; 
 % Load LES data
-getLESdata; % Load LES data and compute C fields
+loadMeanLESdata; 
 %% Fit spline to C cond field
 fprintf('Fitting splines to C fields...\n');
 [C_MAT, ~] = get_C_cond_CZ_data(Path.InpDir);
 [Spline_fields] = fit_spline_for_C_cond_data(field_configs, Path.InpDir, C_MAT);
 [Spline_fields] = set_latex_labels(Spline_fields,field_configs);
+%% Interpolate from splines to LES grid
 [Spline_fields, LES] = interp_from_spline(Spline_fields, LES,'type','dfdr');
+%% Interpolate from splines to temporary grid
 [Spline_fields, LES] = interp_from_spline(Spline_fields, LES,'type','dfdc');
 
 %% Plot dfdr

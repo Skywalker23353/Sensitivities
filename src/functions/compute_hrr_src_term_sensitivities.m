@@ -8,7 +8,8 @@ function [SNST] = compute_hrr_src_term_sensitivities(SNST, SPD, LES, CNST)
     for i = 1:length(fName_denom)
         fName = sprintf('d%s_d%s',SPD.(fName_numrtr).opname,SPD.(fName_denom{i}).opname);
 
-        denomtr = SPD.(fName_denom{i}).comb.dfdr + eps;
+        denomtr = SPD.(fName_denom{i}).comb.dfdr;
+        % Normalization
         if strcmp(fName_denom{i},'Temperature')
             denomtr = denomtr ./ CNST.T_ref;
         elseif strcmp(fName_denom{i},'density')
@@ -17,10 +18,12 @@ function [SNST] = compute_hrr_src_term_sensitivities(SNST, SPD, LES, CNST)
 
         snstvty = compute_sensitivities(numrtr,denomtr);
         
+        % Limit sensitivities to avoid outliers
         if strcmp(fName_denom{i},'Temperature')
             snstvty(abs(snstvty) >= 0.31) = 0.31;
         end
 
+        % Replace values outside C bounds with boundary sensitivities
         replace_idx = LES.Comb.C_field >= CNST.c_ref_mx;
         snstvty(replace_idx) = snstvty(CNST.z_ref_idx,CNST.r_ref_idx);
         replace_idx = LES.Comb.C_field <= CNST.c_ref_mn;

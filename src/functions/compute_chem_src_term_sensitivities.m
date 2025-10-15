@@ -8,7 +8,8 @@ function [SNST] = compute_chem_src_term_sensitivities(SNST, SPD, LES, CNST)
         for i = 1:length(fName_denom)
             fName = sprintf('d%s_d%s',SPD.(fName_numrtr{j}).opname,SPD.(fName_denom{i}).opname);
     
-            denomtr = SPD.(fName_denom{i}).comb.dfdr + eps;
+            denomtr = SPD.(fName_denom{i}).comb.dfdr;
+            % Normalization
             if strcmp(fName_denom{i},'Temperature')
                 denomtr = denomtr ./ CNST.T_ref;
             elseif strcmp(fName_denom{i},'density')
@@ -17,6 +18,7 @@ function [SNST] = compute_chem_src_term_sensitivities(SNST, SPD, LES, CNST)
     
             snstvty = compute_sensitivities(numrtr,denomtr);
             
+            % Limit sensitivities to handle outliers in dT
             if contains(fName,'dT')
                 fprintf("Removing spikes in %s :",fName);
                 if strcmp(fName,'dwCO2_dT')
@@ -29,6 +31,7 @@ function [SNST] = compute_chem_src_term_sensitivities(SNST, SPD, LES, CNST)
                 end
             end
     
+            % Replace values outside C bounds with boundary sensitivities
             replace_idx = LES.Comb.C_field >= CNST.c_ref_mx;
             snstvty(replace_idx) = snstvty(CNST.z_ref_idx,CNST.r_ref_idx);
             replace_idx = LES.Comb.C_field <= CNST.c_ref_mn;

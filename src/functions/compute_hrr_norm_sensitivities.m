@@ -1,12 +1,15 @@
 function [SNST] = compute_hrr_norm_sensitivities(SNST, SPD, LES, CNST)
     fName_numrtr = 'Heatrelease';
     fName_denom = {'density','Temperature','CH4','O2','CO2','H2O'};
+    
     data = SPD.(fName_numrtr).comb.dfdr;
     numrtr = (CNST.model_scaling_factor .* data .* CNST.V_ref )./ CNST.Q_bar;
+    
     for i = 1:length(fName_denom)
         fName = sprintf('d%sn_d%s',SPD.(fName_numrtr).opname,SPD.(fName_denom{i}).opname);
 
-        denomtr = SPD.(fName_denom{i}).comb.dfdr + eps;
+        denomtr = SPD.(fName_denom{i}).comb.dfdr;
+        % Normalization
         if strcmp(fName_denom{i},'Temperature')
             denomtr = denomtr ./ CNST.T_ref;
         elseif strcmp(fName_denom{i},'density')
@@ -14,13 +17,15 @@ function [SNST] = compute_hrr_norm_sensitivities(SNST, SPD, LES, CNST)
         end
         
         snstvty = compute_sensitivities(numrtr,denomtr);
-        
+
+        % Limit sensitivities to avoid outliers
         if strcmp(fName_denom{i},'Temperature')
             snstvty(abs(snstvty) >= 0.2) = 0.2;
         elseif strcmp(fName_denom{i},'CH4')
             snstvty(abs(snstvty) >= 30) = 30;
         end
 
+        % Replace values outside C bounds with boundary sensitivities
         replace_idx = LES.Comb.C_field >= CNST.c_ref_mx;
         snstvty(replace_idx) = snstvty(CNST.z_ref_idx,CNST.r_ref_idx);
         replace_idx = LES.Comb.C_field <= CNST.c_ref_mn;
