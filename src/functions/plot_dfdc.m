@@ -7,6 +7,6 @@ function [] = plot_dfdc(SPD, LES, CNST)
         data = SPD.(fName).comb.dfdc;
         latex_label = SPD.(fName).latexLabel;
         fig_idx = 200 + i;
-        plot_surface_field(X_MAT,Y_MAT,data,latex_label,'c','z/D', 'c', CNST.D,fig_idx);
+        plot_surface_field(X_MAT,Y_MAT./CNST.D,data,latex_label,'c','z/D', 'c',fig_idx);
     end
 end

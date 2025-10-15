@@ -20,7 +20,8 @@ Constant.c_ref_mn = 4e-2;
 %Constant.c_ref_mn = 2e-2;
 Constant.d0 = 0;
 Constant.dN = 0;
-Constant.model_scaling_factor = load(fullfile(Path.TempDir,'comb_interpolted_hrr_field_10D.mat'),"model_scaling_factor"); % hrr scaling factor
+load(fullfile(Path.TempDir,'comb_interpolted_hrr_field_10D.mat'),"model_scaling_factor"); % hrr scaling factor
+Constant.model_scaling_factor = model_scaling_factor; clear model_scaling_factor;
 Constant.rho_ref = 0.4237;
 Constant.Cp_ref =  1100;
 Constant.T_ref = 800;

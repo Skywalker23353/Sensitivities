@@ -4,7 +4,7 @@ function [SPD, LES] = interp_from_spline(SPD, LES, varargin)
     parse(p, varargin{:});  % For varargin-based functions
     deriv_type = p.Results.type;
     X_MAT = LES.Comb.C_field;
-    Y_MAT = LES.Comb.Z1;
+    Y_MAT = LES.Comb.Z;
     field_names = fieldnames(SPD);
     if strcmp(deriv_type,'dfdr')
         for i = 1:length(field_names)

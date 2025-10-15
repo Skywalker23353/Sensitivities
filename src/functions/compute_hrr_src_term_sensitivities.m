@@ -1,10 +1,12 @@
-function [SNST] = compute_hrr_norm_sensitivities(SNST, SPD, LES, CNST)
+function [SNST] = compute_hrr_src_term_sensitivities(SNST, SPD, LES, CNST)
     fName_numrtr = 'Heatrelease';
     fName_denom = {'density','Temperature','CH4','O2','CO2','H2O'};
+
     data = SPD.(fName_numrtr).comb.dfdr;
-    numrtr = (CNST.model_scaling_factor .* data .* CNST.V_ref )./ CNST.Q_bar;
+    numrtr = CNST.model_scaling_factor .* data ./ CNST.omega_dot_T_scaling;
+
     for i = 1:length(fName_denom)
-        fName = sprintf('d%sn_d%s',SPD.(fName_numrtr).opname,SPD.(fName_denom{i}).opname);
+        fName = sprintf('d%s_d%s',SPD.(fName_numrtr).opname,SPD.(fName_denom{i}).opname);
 
         denomtr = SPD.(fName_denom{i}).comb.dfdr + eps;
         if strcmp(fName_denom{i},'Temperature')
@@ -12,13 +14,11 @@ function [SNST] = compute_hrr_norm_sensitivities(SNST, SPD, LES, CNST)
         elseif strcmp(fName_denom{i},'density')
             denomtr = denomtr ./ CNST.rho_ref;
         end
-        
+
         snstvty = compute_sensitivities(numrtr,denomtr);
         
         if strcmp(fName_denom{i},'Temperature')
-            snstvty(abs(snstvty) >= 0.2) = 0.2;
-        elseif strcmp(fName_denom{i},'CH4')
-            snstvty(abs(snstvty) >= 30) = 30;
+            snstvty(abs(snstvty) >= 0.31) = 0.31;
         end
 
         replace_idx = LES.Comb.C_field >= CNST.c_ref_mx;
