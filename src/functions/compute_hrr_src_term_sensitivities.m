@@ -1,4 +1,4 @@
-function [SNST] = compute_hrr_src_term_sensitivities(SNST, SPD, LES, CNST)
+function [SNST] = compute_hrr_src_term_sensitivities(SNST, SPD, LES, CNST, threshold)
     fName_numrtr = 'Heatrelease';
     fName_denom = {'density','Temperature','CH4','O2','CO2','H2O'};
 
@@ -20,7 +20,7 @@ function [SNST] = compute_hrr_src_term_sensitivities(SNST, SPD, LES, CNST)
         
         % Limit sensitivities to avoid outliers
         if strcmp(fName_denom{i},'Temperature')
-            snstvty(abs(snstvty) >= 0.31) = 0.31;
+            snstvty(abs(snstvty) >= threshold.T) = threshold.T;
         end
 
         % Replace values outside C bounds with boundary sensitivities
