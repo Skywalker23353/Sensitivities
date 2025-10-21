@@ -9,20 +9,20 @@ function [SNST] = compute_chem_src_term_sensitivities(SNST, SPD, LES, CNST, vara
     fName_denom = {'density','Temperature','CH4','O2','CO2','H2O'};
 
     for j = 1:length(fName_numrtr)
-        data = SPD.(fName_numrtr{j}).comb.dfdr;
-        numrtr = CNST.model_scaling_factor .* data ./ CNST.omega_dot_k_scaling;
+        numrtr = SPD.(fName_numrtr{j}).comb.dfdr;
+
+        N2_senstivity = compute_sensitivities(numrtr,SPD.N2.comb.dfdr);
+
         for i = 1:length(fName_denom)
             fName = sprintf('d%s_d%s',SPD.(fName_numrtr{j}).opname,SPD.(fName_denom{i}).opname);
     
             denomtr = SPD.(fName_denom{i}).comb.dfdr;
-            % Normalization
-            if strcmp(fName_denom{i},'Temperature')
-                denomtr = denomtr ./ CNST.T_ref;
-            elseif strcmp(fName_denom{i},'density')
-                denomtr = denomtr ./ CNST.rho_ref;
-            end
     
             snstvty = compute_sensitivities(numrtr,denomtr);
+
+            % if ~ismember(fName_denom{i},{'density','Temperature'})
+            %     snstvty = snstvty - N2_senstivity;
+            % end
             
             % Limit sensitivities to handle outliers in dT
             if remove_spikes && contains(fName,'dT')

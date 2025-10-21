@@ -22,7 +22,8 @@ fprintf('Fitting splines to C fields...\n');
 [Spline_fields, LES] = interp_from_spline(Spline_fields, LES,'type','dfdr');
 %% Interpolate from splines to temporary grid
 [Spline_fields, LES] = interp_from_spline(Spline_fields, LES,'type','dfdc');
-
+%% Normalize fields
+[Spline_fields] = normalize_spline_fields(Spline_fields, Constant, field_configs);
 %% Plot dfdr
 % plot_dfdr(Spline_fields, LES, Constant);
 % plot_dfdc(Spline_fields, LES, Constant);
