@@ -11,12 +11,10 @@ function [SNST] = compute_hrr_norm_sensitivities(SNST, SPD, LES, CNST, varargin)
     end
     % Main computation
     fName_numrtr = 'HeatreleaseNorm';
-    fName_denom = {'density','Temperature','CH4','O2','CO2','H2O'};
+    fName_denom = {'density','Temperature','CH4','O2','CO2','H2O','N2'};
     
     data = SPD.(fName_numrtr).comb.dfdr;
     numrtr = data;
-
-    N2_senstivity = compute_sensitivities(numrtr,SPD.N2.comb.dfdr);
     
     for i = 1:length(fName_denom)
         fName = sprintf('d%sn_d%s',SPD.(fName_numrtr).opname,SPD.(fName_denom{i}).opname);
@@ -24,10 +22,6 @@ function [SNST] = compute_hrr_norm_sensitivities(SNST, SPD, LES, CNST, varargin)
         denomtr = SPD.(fName_denom{i}).comb.dfdr;
         
         snstvty = compute_sensitivities(numrtr,denomtr);
-
-        % if ~ismember(fName_denom{i},{'density','Temperature'})
-        %     snstvty = snstvty - N2_senstivity;
-        % end
         
         % Limit sensitivities to avoid outliers
         if threshold_passed && strcmp(fName_denom{i},'Temperature') && isfield(threshold,'dT')

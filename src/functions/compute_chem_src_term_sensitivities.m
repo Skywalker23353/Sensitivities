@@ -6,12 +6,10 @@ function [SNST] = compute_chem_src_term_sensitivities(SNST, SPD, LES, CNST, vara
     remove_spikes = p.Results.remove_spikes;
     % Main computation
     fName_numrtr = {'SYm_CH4';'SYm_O2';'SYm_CO2';'SYm_H2O'};
-    fName_denom = {'density','Temperature','CH4','O2','CO2','H2O'};
+    fName_denom = {'density','Temperature','CH4','O2','CO2','H2O','N2'};
 
     for j = 1:length(fName_numrtr)
         numrtr = SPD.(fName_numrtr{j}).comb.dfdr;
-
-        N2_senstivity = compute_sensitivities(numrtr,SPD.N2.comb.dfdr);
 
         for i = 1:length(fName_denom)
             fName = sprintf('d%s_d%s',SPD.(fName_numrtr{j}).opname,SPD.(fName_denom{i}).opname);
@@ -20,10 +18,6 @@ function [SNST] = compute_chem_src_term_sensitivities(SNST, SPD, LES, CNST, vara
     
             snstvty = compute_sensitivities(numrtr,denomtr);
 
-            % if ~ismember(fName_denom{i},{'density','Temperature'})
-            %     snstvty = snstvty - N2_senstivity;
-            % end
-            
             % Limit sensitivities to handle outliers in dT
             if remove_spikes && contains(fName,'dT')
                 fprintf("Removing spikes in %s :",fName);
