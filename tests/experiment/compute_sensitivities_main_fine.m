@@ -46,7 +46,8 @@ Thld.dT = 1e4;
 
 %%  Compute chem src terms sensitivities
 [Sensitivities] = compute_chem_src_term_sensitivities(Sensitivities,Spline_fields, LES, Constant);
-
+%% Subtract N2 sensitivities from all sensitivities
+[Sensitivities] = subtract_N2_sensitivities(Sensitivities);
 %% Set nozzle sensitivities 
 [Sensitivities] = set_noz_sensitivities(Sensitivities,LES.Noz);
 
