@@ -6,8 +6,7 @@ function [SPD] = normalize_spline_fields(SPD, CNST, field_names)
         switch field_name
             case 'Heatrelease'
                 fname = 'HeatreleaseNorm';
-                SPD.(fname).comb.dfdr = SPD.(field_name).comb.dfdr;
-                SPD.(fname).comb.dfdc = SPD.(field_name).comb.dfdc;
+                SPD.(fname) = SPD.(field_name);
 
                 SPD.(fname).comb.dfdr = (CNST.model_scaling_factor .* SPD.(fname).comb.dfdr .* CNST.V_ref ) ./ CNST.Q_bar;
                 SPD.(fname).comb.dfdc = (CNST.model_scaling_factor .* SPD.(fname).comb.dfdc .* CNST.V_ref ) ./ CNST.Q_bar;

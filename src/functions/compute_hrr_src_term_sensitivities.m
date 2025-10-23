@@ -1,17 +1,15 @@
-function [SNST] = compute_hrr_src_term_sensitivities(SNST, SPD, LES, CNST, varargin)
+function [SNST] = compute_hrr_src_term_sensitivities(SNST, SPD, LES, CNST, fName_numrtr, fName_denom, varargin)
     % Input parsing for optional threshold
     threshold_passed = any(strcmp(varargin(1:2:end),'threshold'));
     if ~threshold_passed
         warning('No threshold provided. Sensitivities will not be limited.');
     else
         p = inputParser;
-        addParameter(p,'threshold',struct('dT',0.31), @(x) isstruct(x) && isfield(x,'dT'));
+        addParameter(p,'threshold',struct('dT',0.31,'dN2', 100), @(x) isstruct(x) && (isfield(x,'dT') || isfield(x,'dN2')));
         parse(p,varargin{:});
         threshold = p.Results.threshold;
     end
     % Main computation
-    fName_numrtr = 'Heatrelease';
-    fName_denom = {'density','Temperature','CH4','O2','CO2','H2O','N2'};
 
     numrtr = SPD.(fName_numrtr).comb.dfdr;
     
@@ -25,6 +23,9 @@ function [SNST] = compute_hrr_src_term_sensitivities(SNST, SPD, LES, CNST, varar
         % Limit sensitivities to avoid outliers
         if threshold_passed && strcmp(fName_denom{i},'Temperature') && isfield(threshold,'dT')
             snstvty(abs(snstvty) >= threshold.dT) = threshold.dT;
+        elseif threshold_passed && strcmp(fName_denom{i},'N2') && isfield(threshold,'dN2')
+            snstvty(snstvty > threshold.dN2) = threshold.dN2;
+            snstvty(snstvty < -threshold.dN2) = -threshold.dN2; 
         end
 
         % Replace values outside C bounds with boundary sensitivities

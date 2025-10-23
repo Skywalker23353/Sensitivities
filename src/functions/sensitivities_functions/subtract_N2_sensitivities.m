@@ -10,7 +10,7 @@ function [SNST] = subtract_N2_sensitivities(SNST)
     %   SNST - Structure with N2 sensitivities subtracted from all other species
     
     % Get all field names from the structure
-    all_fields = fieldnames(SNST);
+    all_fields = fieldnames(SNST.comb);
     
     % Find all fields ending with '_dN2'
     n2_fields = all_fields(endsWith(all_fields, '_dN2'));
@@ -36,7 +36,7 @@ function [SNST] = subtract_N2_sensitivities(SNST)
             end
             
             % Perform the subtraction
-            SNST.(field) = SNST.(field) - SNST.(n2_field);
+            SNST.comb.(field) = SNST.comb.(field) - SNST.comb.(n2_field);
         end
     end
     

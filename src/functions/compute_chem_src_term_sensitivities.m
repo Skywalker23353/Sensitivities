@@ -1,17 +1,15 @@
-function [SNST] = compute_chem_src_term_sensitivities(SNST, SPD, LES, CNST, varargin)
+function [SNST] = compute_chem_src_term_sensitivities(SNST, SPD, LES, CNST, fName_numrtr, fName_denom,varargin)
     % Input parsing for optional remove_spikes
     p = inputParser;
     addParameter(p,'remove_spikes',false, @(x) islogical(x) || isnumeric(x));
     parse(p,varargin{:});
     remove_spikes = p.Results.remove_spikes;
     % Main computation
-    fName_numrtr = {'SYm_CH4';'SYm_O2';'SYm_CO2';'SYm_H2O'};
-    fName_denom = {'density','Temperature','CH4','O2','CO2','H2O','N2'};
-
     for j = 1:length(fName_numrtr)
         numrtr = SPD.(fName_numrtr{j}).comb.dfdr;
 
         for i = 1:length(fName_denom)
+            i
             fName = sprintf('d%s_d%s',SPD.(fName_numrtr{j}).opname,SPD.(fName_denom{i}).opname);
     
             denomtr = SPD.(fName_denom{i}).comb.dfdr;
