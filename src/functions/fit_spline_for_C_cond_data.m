@@ -5,7 +5,7 @@ function [Spline_fields] = fit_spline_for_C_cond_data(field_names, path, C_MAT)
         field_name = field_names{i};
         fprintf('Fitting spline for %s...\n', field_name);
         load(fullfile(path, [field_name, '.mat']), "DF");
-        if ismember(field_name, {'SYm_CH4', 'SYm_O2', 'SYm_CO2', 'SYm_H2O'})
+        if ismember(field_name, {'SYm_CH4','SYm_CH2O','SYm_CH3','SYm_CO', 'SYm_O2', 'SYm_CO2', 'SYm_H2O', 'SYm_H2', 'SYm_H', 'SYm_HO2', 'SYm_O', 'SYm_OH'})
             clamp_flag = true; % Clamping for reaction rates
         else
             clamp_flag = false; % No clamping for other fields
