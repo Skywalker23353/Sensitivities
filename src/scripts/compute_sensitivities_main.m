@@ -7,7 +7,7 @@ addpath('/work/home/satyam/satyam_files/CH4_jet_PF/2025_Runs/Sensitivities/confi
 %%
 write_to_h5_file_flag = false;
 plot_fields = true;
-plot_sensitivities_flag = false;
+plot_sensitivities_flag = true;
 h5filename = 'Reactants_22';
 % Load paths and constants
 sensitivity_constants_delc_0_1;  
@@ -40,12 +40,13 @@ end
 fName_denom = {'density','Temperature','CH4','O2','CO2','H2O','CH2O','CH3','CO','H','H2','HO2','O','OH'};
 %% Compute hrr norm sensitivities
 Sensitivities = struct();
+Sensitivities_test = struct();
 % Thld.dT = 0.2;
 % Thld.dCH4 = 30;
 % Thld.dN2 = 100;
 fName_numrtr = 'HeatreleaseNorm';
 [Sensitivities] = compute_hrr_norm_sensitivities(Sensitivities,Spline_fields, LES, Constant, fName_numrtr,fName_denom);
-% [Sensitivities] = compute_hrr_norm_sensitivities(Sensitivities,Spline_fields, LES, Constant);
+[Sensitivities_test] = compute_hrr_norm_sensitivities_temp(Sensitivities_test,Spline_fields, LES, Constant,fName_numrtr,fName_denom);
 
 %% Plot hrr norm sensitivities
 % plot_sensitivities(Sensitivities, LES.Comb.R1, LES.Comb.Z1, Constant);
@@ -55,7 +56,7 @@ fName_numrtr = 'HeatreleaseNorm';
 % Thld.dN2 = 100;
 fName_numrtr = 'Heatrelease';
 [Sensitivities] = compute_hrr_src_term_sensitivities(Sensitivities,Spline_fields, LES, Constant, fName_numrtr,fName_denom);
-% [Sensitivities] = compute_hrr_src_term_sensitivities(Sensitivities,Spline_fields, LES, Constant);
+[Sensitivities_test] = compute_hrr_src_term_sensitivities_test(Sensitivities_test,Spline_fields, LES, Constant, fName_numrtr,fName_denom);
 
 %% Plot hrr norm and src term sensitivities
 % plot_sensitivities(Sensitivities, LES.Comb.R1, LES.Comb.Z1, Constant);
@@ -64,6 +65,7 @@ fName_numrtr = 'Heatrelease';
 % [Sensitivities] = compute_chem_src_term_sensitivities(Sensitivities,Spline_fields, LES, Constant,'remove_spikes',true);
 fName_numrtr = {'SYm_CH4';'SYm_CH3';'SYm_CO';'SYm_O2';'SYm_O';'SYm_OH';'SYm_CO2';'SYm_H2O';'SYm_HO2';'SYm_H';};%'SYm_CH2O';'SYm_H2';
 [Sensitivities] = compute_chem_src_term_sensitivities(Sensitivities,Spline_fields, LES, Constant, fName_numrtr,fName_denom);
+[Sensitivities_test] = compute_chem_src_term_sensitivities_test(Sensitivities_test,Spline_fields, LES, Constant, fName_numrtr,fName_denom);
 
 %% Subtract N2 sensitivities from all sensitivities
 % [Sensitivities] = subtract_N2_sensitivities(Sensitivities);
@@ -73,7 +75,8 @@ fName_numrtr = {'SYm_CH4';'SYm_CH3';'SYm_CO';'SYm_O2';'SYm_O';'SYm_OH';'SYm_CO2'
 
 %% Plotting
 if plot_sensitivities_flag
-    plot_sensitivities(Sensitivities, LES.Comb.R, LES.Comb.Z, Constant);
+%     plot_sensitivities(Sensitivities, LES.Comb.R, LES.Comb.Z, Constant);
+        plot_sensitivities(Sensitivities_test, LES.Temp.X_MAT, LES.Temp.Y_MAT, Constant, 20);
 end
 %%  Write to H5 file
 if write_to_h5_file_flag
