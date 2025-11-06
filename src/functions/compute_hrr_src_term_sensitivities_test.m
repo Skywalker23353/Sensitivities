@@ -23,6 +23,9 @@ function [SNST] = compute_hrr_src_term_sensitivities_test(SNST, SPD, LES, CNST, 
         snstvty = compute_sensitivities(numrtr,denomtr);
         snstvty_n = compute_sensitivities(numrtr_n,denomtr_n);
 
+        snstvty = remove_spikes_interp2D(snstvty, 10);
+        snstvty_n = remove_spikes_interp2D(snstvty_n,10);
+
         SNST.comb.(fName) =  snstvty;
         SNST.noz.(fName) =  snstvty_n;
     end

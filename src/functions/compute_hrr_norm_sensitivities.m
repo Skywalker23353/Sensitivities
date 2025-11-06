@@ -25,6 +25,9 @@ function [SNST] = compute_hrr_norm_sensitivities(SNST, SPD, LES, CNST, fName_num
         
         snstvty = compute_sensitivities(numrtr,denomtr);
         snstvty_n = compute_sensitivities(numrtr_n,denomtr_n);
+
+%         snstvty = remove_spikes_interp2D(snstvty, 25);
+%         snstvty_n = remove_spikes_interp2D(snstvty_n,25);
         
         % Limit sensitivities to avoid outliers
         if threshold_passed && strcmp(fName_denom{i},'Temperature') && isfield(threshold,'dT')

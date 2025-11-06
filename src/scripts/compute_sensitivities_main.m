@@ -5,16 +5,16 @@ addpath('~/MATLAB/');
 addpath(genpath('/work/home/satyam/satyam_files/CH4_jet_PF/2025_Runs/Sensitivities/src/functions'));
 addpath('/work/home/satyam/satyam_files/CH4_jet_PF/2025_Runs/Sensitivities/config');
 %%
-write_to_h5_file_flag = false;
-plot_fields = true;
-plot_sensitivities_flag = true;
-h5filename = 'Reactants_22';
+write_to_h5_file_flag = true;
+plot_fields = false;
+plot_sensitivities_flag = false;
+h5filename = 'Reactants_26';
 % Load paths and constants
 sensitivity_constants_delc_0_1;  
 % Load input field configurations
 C_cond_field_name_with_all_minor; 
 % Load LES data
-[LES,Constant] = load_LES_mean_data(Constant,Path,Filename,'O2_mean');  
+[LES,Constant] = load_LES_mean_data(Constant,Path,Filename,'T_mean');  
 %% Fit spline to C cond field
 fprintf('Fitting splines to C fields...\n');
 [C_MAT, ~] = get_C_cond_CZ_data(Path.InpDir);
@@ -76,7 +76,7 @@ fName_numrtr = {'SYm_CH4';'SYm_CH3';'SYm_CO';'SYm_O2';'SYm_O';'SYm_OH';'SYm_CO2'
 %% Plotting
 if plot_sensitivities_flag
 %     plot_sensitivities(Sensitivities, LES.Comb.R, LES.Comb.Z, Constant);
-        plot_sensitivities(Sensitivities_test, LES.Temp.X_MAT, LES.Temp.Y_MAT, Constant, 20);
+        plot_sensitivities(Sensitivities_test, LES.Temp.X_MAT, LES.Temp.Y_MAT, Constant, 40);
 end
 %%  Write to H5 file
 if write_to_h5_file_flag

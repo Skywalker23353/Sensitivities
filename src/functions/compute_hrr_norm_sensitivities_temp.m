@@ -25,6 +25,9 @@ function [SNST] = compute_hrr_norm_sensitivities_temp(SNST, SPD, LES, CNST, fNam
         
         snstvty = compute_sensitivities(numrtr,denomtr);
         snstvty_n = compute_sensitivities(numrtr_n,denomtr_n);
+
+        snstvty = remove_spikes_interp2D(snstvty, 5);
+        snstvty_n = remove_spikes_interp2D(snstvty_n,5);
        
         % Replace values outside C bounds with boundary sensitivities
 %         replace_idx = LES.Comb.C_field >= CNST.c_ref_mx;

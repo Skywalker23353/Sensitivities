@@ -19,6 +19,9 @@ function [SNST] = compute_chem_src_term_sensitivities(SNST, SPD, LES, CNST, fNam
             snstvty = compute_sensitivities(numrtr,denomtr);
             snstvty_n = compute_sensitivities(numrtr_n,denomtr_n);
 
+%             snstvty = remove_spikes_interp2D(snstvty, 10);
+%             snstvty_n = remove_spikes_interp2D(snstvty_n,10);
+
             % Limit sensitivities to handle outliers in dT
             if remove_spikes && contains(fName,'dT')
                 fprintf("Removing spikes in %s :",fName);
