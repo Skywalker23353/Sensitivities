@@ -44,7 +44,7 @@ function [SPD, LES] = interp_from_spline(SPD, LES, varargin)
         for i = 1:length(field_names)
             field_name = field_names{i};
             SPD.(field_name).comb.(deriv_type) = interp_from_spline_on_2D_data(SPD.(field_name).pp, X_MAT);
-            SPD.(field_name).comb.(deriv_type) = interp_from_spline_on_2D_data(SPD.(field_name).pp, X_MAT_N);
+            SPD.(field_name).noz.(deriv_type) = interp_from_spline_on_2D_data(SPD.(field_name).pp, X_MAT_N);
         end
     else
         fprintf('Incorrect type %d',deriv_type);

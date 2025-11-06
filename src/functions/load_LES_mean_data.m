@@ -1,4 +1,4 @@
-function [LES,CNST] = load_LES_mean_data(CNST,PATH,FILENAME)
+function [LES,CNST] = load_LES_mean_data(CNST,PATH,FILENAME,FNAME)
     LES.Comb.MeanField = load(fullfile(PATH.TempDir, FILENAME.LES_comb_file));
     LES.Noz.MeanField = load(fullfile(PATH.TempDir, FILENAME.LES_noz_file));
     % Load structured grid coordinates
@@ -6,8 +6,8 @@ function [LES,CNST] = load_LES_mean_data(CNST,PATH,FILENAME)
     
     % Create C field using YO2 field
     fprintf('Computing C fields...\n');
-    LES.Comb.C_field = (CNST.Yu - LES.Comb.MeanField.O2_mean)/(CNST.Yu - CNST.Yb);
-    LES.Noz.C_field = (CNST.Yu - LES.Noz.MeanField.O2_mean)/(CNST.Yu - CNST.Yb);
+    LES.Comb.C_field = (CNST.Yu - LES.Comb.MeanField.(FNAME))/(CNST.Yu - CNST.Yb);
+    LES.Noz.C_field = (CNST.Yu - LES.Noz.MeanField.(FNAME))/(CNST.Yu - CNST.Yb);
     
     LES.Comb.C_field(LES.Comb.C_field >= CNST.c_ref_mx) = CNST.c_ref_mx;
     LES.Noz.C_field(LES.Noz.C_field >= CNST.c_ref_mx) = CNST.c_ref_mx;

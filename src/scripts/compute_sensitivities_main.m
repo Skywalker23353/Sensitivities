@@ -5,16 +5,16 @@ addpath('~/MATLAB/');
 addpath(genpath('/work/home/satyam/satyam_files/CH4_jet_PF/2025_Runs/Sensitivities/src/functions'));
 addpath('/work/home/satyam/satyam_files/CH4_jet_PF/2025_Runs/Sensitivities/config');
 %%
-write_to_h5_file_flag = true;
-plot_fields = false;
+write_to_h5_file_flag = false;
+plot_fields = true;
 plot_sensitivities_flag = false;
-h5filename = 'Reactants_21';
+h5filename = 'Reactants_22';
 % Load paths and constants
-sensitivity_constants_delc_0_02;  
+sensitivity_constants_delc_0_1;  
 % Load input field configurations
 C_cond_field_name_with_all_minor; 
 % Load LES data
-[LES,Constant] = load_LES_mean_data(Constant,Path,Filename);  
+[LES,Constant] = load_LES_mean_data(Constant,Path,Filename,'O2_mean');  
 %% Fit spline to C cond field
 fprintf('Fitting splines to C fields...\n');
 [C_MAT, ~] = get_C_cond_CZ_data(Path.InpDir);
@@ -31,13 +31,13 @@ fprintf('Fitting splines to C fields...\n');
 %% Plot dfdr
 if plot_fields
 %     plot_dfdr(Spline_fields, LES, Constant);
-        plot_dfdr(Spline_fields, LES, Constant,'grid','noz');
-%     plot_f(Spline_fields, LES, Constant);
+%         plot_dfdr(Spline_fields, LES, Constant,'grid','noz');
+    plot_f(Spline_fields, LES, Constant);
 %     plot_dfdc(Spline_fields, LES, Constant);
 end
 %%
 % fName_denom = {'density','Temperature','CH4','O2','CO2','H2O','N2'};
-fName_denom = {'density','Temperature','CH4','O2','CO2','H2O','N2','CH2O','CH3','CO','H','H2','HO2','O','OH'};
+fName_denom = {'density','Temperature','CH4','O2','CO2','H2O','CH2O','CH3','CO','H','H2','HO2','O','OH'};
 %% Compute hrr norm sensitivities
 Sensitivities = struct();
 % Thld.dT = 0.2;
@@ -62,7 +62,7 @@ fName_numrtr = 'Heatrelease';
 
 %%  Compute chem src terms sensitivities
 % [Sensitivities] = compute_chem_src_term_sensitivities(Sensitivities,Spline_fields, LES, Constant,'remove_spikes',true);
-fName_numrtr = {'SYm_CH4';'SYm_CH2O';'SYm_CH3';'SYm_CO';'SYm_O2';'SYm_O';'SYm_OH';'SYm_CO2';'SYm_H2O';'SYm_HO2';'SYm_H2';'SYm_H';};
+fName_numrtr = {'SYm_CH4';'SYm_CH3';'SYm_CO';'SYm_O2';'SYm_O';'SYm_OH';'SYm_CO2';'SYm_H2O';'SYm_HO2';'SYm_H';};%'SYm_CH2O';'SYm_H2';
 [Sensitivities] = compute_chem_src_term_sensitivities(Sensitivities,Spline_fields, LES, Constant, fName_numrtr,fName_denom);
 
 %% Subtract N2 sensitivities from all sensitivities
