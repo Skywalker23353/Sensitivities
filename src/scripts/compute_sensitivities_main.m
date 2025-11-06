@@ -5,10 +5,10 @@ addpath('~/MATLAB/');
 addpath(genpath('/work/home/satyam/satyam_files/CH4_jet_PF/2025_Runs/Sensitivities/src/functions'));
 addpath('/work/home/satyam/satyam_files/CH4_jet_PF/2025_Runs/Sensitivities/config');
 %%
-write_to_h5_file_flag = false;
-plot_fields = true;
+write_to_h5_file_flag = true;
+plot_fields = false;
 plot_sensitivities_flag = false;
-h5filename = 'Reactants_16';
+h5filename = 'Reactants_21';
 % Load paths and constants
 sensitivity_constants_delc_0_02;  
 % Load input field configurations
@@ -69,7 +69,7 @@ fName_numrtr = {'SYm_CH4';'SYm_CH2O';'SYm_CH3';'SYm_CO';'SYm_O2';'SYm_O';'SYm_OH
 % [Sensitivities] = subtract_N2_sensitivities(Sensitivities);
 
 %% Set nozzle sensitivities 
-[Sensitivities] = set_noz_sensitivities(Sensitivities,LES.Noz);
+% [Sensitivities] = set_noz_sensitivities(Sensitivities,LES.Noz);
 
 %% Plotting
 if plot_sensitivities_flag
