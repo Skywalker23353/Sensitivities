@@ -1,4 +1,4 @@
-function [SNST] = compute_hrr_norm_sensitivities_temp(SNST, SPD, LES, CNST, fName_numrtr,fName_denom,varargin)
+function [SNST] = compute_hrr_norm_sensitivities_temp(SNST, SPD, GridName, LES, CNST, fName_numrtr,fName_denom,varargin)
     % Input parsing for optional threshold
     threshold_passed = any(strcmp(varargin(1:2:end),'threshold'));
     if ~threshold_passed
@@ -12,22 +12,20 @@ function [SNST] = compute_hrr_norm_sensitivities_temp(SNST, SPD, LES, CNST, fNam
     % Main computation
     
     
-    data = SPD.(fName_numrtr).comb.dfdc;
-    data_n = SPD.(fName_numrtr).noz.dfdc;
+    data = SPD.(fName_numrtr).(GridName).dfdc;
     numrtr = data;
-    numrtr_n = data_n;
     
     for i = 1:length(fName_denom)
         fName = sprintf('d%sn_d%s',SPD.(fName_numrtr).opname,SPD.(fName_denom{i}).opname);
 
-        denomtr = SPD.(fName_denom{i}).comb.dfdc;
-        denomtr_n = SPD.(fName_denom{i}).noz.dfdc;
+        denomtr = SPD.(fName_denom{i}).(GridName).dfdc;
+
         
         snstvty = compute_sensitivities(numrtr,denomtr);
-        snstvty_n = compute_sensitivities(numrtr_n,denomtr_n);
+
 
         snstvty = remove_spikes_interp2D(snstvty, 5);
-        snstvty_n = remove_spikes_interp2D(snstvty_n,5);
+
        
         % Replace values outside C bounds with boundary sensitivities
 %         replace_idx = LES.Comb.C_field >= CNST.c_ref_mx;
@@ -41,7 +39,7 @@ function [SNST] = compute_hrr_norm_sensitivities_temp(SNST, SPD, LES, CNST, fNam
 
 %         snstvty = apply_smoothing_ignore_boundaries_1(snstvty,3,'all',1,1);
 %         snstvty_n = apply_smoothing_ignore_boundaries_1(snstvty_n,3,'all',1,1);
-        SNST.comb.(fName) =  snstvty;
-        SNST.noz.(fName) =  snstvty_n;
+        SNST.(GridName).(fName) =  snstvty;
+
     end
 end

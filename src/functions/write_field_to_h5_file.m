@@ -2,6 +2,7 @@ function write_field_to_h5_file(fieldNames,N_fields,comb_s,noz_s,comb,noz,outdir
 
     h5_filename = sprintf('%s/%s.h5',outdir,filename);
     fname = split(filename,'_');
+    if isfile(h5_filename); delete(h5_filename);end
     h5_grids_filename = sprintf('%s/%s_grids_0.h5',outdir,fname{1});
     if isfile(h5_grids_filename); delete(h5_grids_filename);end
     phase_name = fname{1};

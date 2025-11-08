@@ -1,7 +1,8 @@
 %% Paths
 Path.TempDir = '/work/home/satyam/satyam_files/CH4_jet_PF/2025_Runs/Sensitivities/data/raw/LES';
 Path.OutpDir = '/work/home/satyam/satyam_files/CH4_jet_PF/2025_Runs/Sensitivities/data/processed/sensitivities_10D_spline_0.1_T';
-Path.InpDir = '/work/home/satyam/satyam_files/CH4_jet_PF/2025_Runs/Sensitivities/data/raw//C_cond_fields_800_10D_0.1_T';
+Path.InpDir1 = '/work/home/satyam/satyam_files/CH4_jet_PF/2025_Runs/Sensitivities/data/raw//C_cond_fields_800_10D_0.1_T/Comb';
+Path.InpDir2 = '/work/home/satyam/satyam_files/CH4_jet_PF/2025_Runs/Sensitivities/data/raw//C_cond_fields_800_10D_0.1_T/Noz';
 Path.H5Outdir = '/work/home/satyam/satyam_files/CH4_jet_PF/2025_Runs/LES_base_case_v6/filtering_run3/sensitivities/10D_spline'; 
 %% Filenames
 Filename.LES_comb_file = 'interp_16_unilat_structured_pl_combustor_domain/interp_fields/Mean_field_azim_avg';
@@ -14,7 +15,9 @@ Constant.zmx = 10;
 Constant.Yu = 800;
 Constant.Yb = 2313.65;
 Constant.c_ref_mx = 0.97; 
-Constant.c_ref_mn = 0.0;
+Constant.c_ref_mn = 1e-32;
+Constant.CH4_c_ref_mx = 0.80; 
+Constant.CH4_c_ref_mn = 0.01;
 Constant.d0 = 0;
 Constant.dN = 0;
 load(fullfile(Path.TempDir,'comb_interpolted_hrr_field_10D.mat'),"model_scaling_factor"); % hrr scaling factor
@@ -28,5 +31,7 @@ Constant.V_ref = (Constant.l_ref)^3;
 Constant.Q_bar = 163;
 Constant.r_ref = 2;
 Constant.z_ref = 9;
+Constant.CH4_r_ref = 0.25;
+Constant.CH4_z_ref = 7.5;
 Constant.omega_dot_T_scaling = (Constant.rho_ref*Constant.Cp_ref*Constant.T_ref*Constant.U_ref)/Constant.l_ref;
 Constant.omega_dot_k_scaling = (Constant.rho_ref*Constant.U_ref)/Constant.l_ref;

@@ -1,4 +1,4 @@
-function [SNST] = compute_hrr_src_term_sensitivities_test(SNST, SPD, LES, CNST, fName_numrtr, fName_denom, varargin)
+function [SNST] = compute_hrr_src_term_sensitivities_test(SNST, SPD, GridName, LES, CNST, fName_numrtr, fName_denom, varargin)
     % Input parsing for optional threshold
     threshold_passed = any(strcmp(varargin(1:2:end),'threshold'));
     if ~threshold_passed
@@ -11,22 +11,17 @@ function [SNST] = compute_hrr_src_term_sensitivities_test(SNST, SPD, LES, CNST, 
     end
     % Main computation
 
-    numrtr = SPD.(fName_numrtr).comb.dfdc;
-    numrtr_n = SPD.(fName_numrtr).noz.dfdc;
+    numrtr = SPD.(fName_numrtr).(GridName).dfdc;
     
     for i = 1:length(fName_denom)
         fName = sprintf('d%s_d%s',SPD.(fName_numrtr).opname,SPD.(fName_denom{i}).opname);
 
-        denomtr = SPD.(fName_denom{i}).comb.dfdc;
-        denomtr_n = SPD.(fName_denom{i}).noz.dfdc;
+        denomtr = SPD.(fName_denom{i}).(GridName).dfdc;
 
         snstvty = compute_sensitivities(numrtr,denomtr);
-        snstvty_n = compute_sensitivities(numrtr_n,denomtr_n);
 
         snstvty = remove_spikes_interp2D(snstvty, 10);
-        snstvty_n = remove_spikes_interp2D(snstvty_n,10);
 
-        SNST.comb.(fName) =  snstvty;
-        SNST.noz.(fName) =  snstvty_n;
+        SNST.(GridName).(fName) =  snstvty;
     end
 end
