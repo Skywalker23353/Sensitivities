@@ -1,4 +1,4 @@
-function [SNST] = compute_chem_src_term_sensitivities(SNST, SPD, GridName, LES, CNST, fName_numrtr, fName_denom,varargin)
+function [SNST] = compute_all_sensitivities(SNST, SPD, GridName, LES, CNST, fName_numrtr, fName_denom,varargin)
     % Input parsing for optional remove_spikes
     p = inputParser;
     addParameter(p,'remove_spikes',false, @(x) islogical(x) || isnumeric(x));

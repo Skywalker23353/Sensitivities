@@ -16,7 +16,7 @@ function [SNST] = compute_hrr_norm_sensitivities(SNST, SPD, GridName, LES, CNST,
     numrtr = data;
     
     for i = 1:length(fName_denom)
-        fName = sprintf('d%sn_d%s',SPD.(fName_numrtr).opname,SPD.(fName_denom{i}).opname);
+        fName = sprintf('d%s_d%s',SPD.(fName_numrtr).opname,SPD.(fName_denom{i}).opname);
 
         denomtr = SPD.(fName_denom{i}).(GridName).dfdr;
         
