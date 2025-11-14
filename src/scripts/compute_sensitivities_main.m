@@ -5,10 +5,10 @@ addpath('~/MATLAB/');
 addpath(genpath('/work/home/satyam/satyam_files/CH4_jet_PF/2025_Runs/Sensitivities/src/functions'));
 addpath('/work/home/satyam/satyam_files/CH4_jet_PF/2025_Runs/Sensitivities/config');
 %%
-write_to_h5_file_flag = false;
+write_to_h5_file_flag = true;
 plot_fields = false;
 plot_sensitivities_flag = false;
-h5filename = 'Reactants_30';
+h5filename = 'Reactants_36';
 % Load paths and constants
 sensitivity_constants_delc_0_1;  
 % Load input field configurations
@@ -34,7 +34,7 @@ Spline_fields = struct();
 [Spline_fields, LES] = interp_from_spline(Spline_fields,"Comb", LES,'type','f');
 [Spline_fields, LES] = interp_from_spline(Spline_fields,"Noz", LES,'type','f');
 %% ADD HeatreleaseNorm field
-[Spline_fields] = add_hrr_norm_field(Spline_fields);
+% [Spline_fields] = add_hrr_norm_field(Spline_fields);
 %% Normalize fields
 [Spline_fields] = normalize_spline_fields(Spline_fields, "Comb", Constant);
 [Spline_fields] = normalize_spline_fields(Spline_fields, "Noz", Constant);
@@ -102,9 +102,22 @@ if plot_sensitivities_flag
         plot_sensitivities(Sensitivities_test, LES.Temp.X_MAT, LES.Temp.Y_MAT, Constant, 40);
 end
 %% Reshape fields 
-[Sensitivities,LES] = reshape_sensitivities_and_grid(Sensitivities,LES);
-[Sensitivities] = smooth_sensitivities_near_dump_plane(Sensitivities,LES.Inner);
-%% Write to h5
+% [Sensitivities,LES] = reshape_sensitivities_and_grid(Sensitivities,LES);
+% [Sensitivities] = smooth_sensitivities_near_dump_plane(Sensitivities,LES.Inner);
+% % Write to h5
+% if write_to_h5_file_flag
+%     fprintf('\n=== Writing to H5 File ===\n');
+%     processed_fields = fieldnames(Sensitivities.Inner);
+%     N_fields = length(processed_fields);
+% % 
+%     try
+%         write_field_to_h5_file_reshaped(processed_fields, N_fields, Sensitivities.Inner, Sensitivities.Outer, LES.Inner, LES.Outer, Path.H5Outdir, h5filename);
+%         fprintf('✓ Successfully wrote to H5 file: %s/%s.h5\n', Path.H5Outdir, h5filename);
+%     catch ME
+%         fprintf('✗ Error writing to H5 file: %s\n', ME.message);
+%     end
+% end
+%%  Write to H5 file
 if write_to_h5_file_flag
     fprintf('\n=== Writing to H5 File ===\n');
     processed_fields = fieldnames(Sensitivities.Comb);
@@ -117,16 +130,3 @@ if write_to_h5_file_flag
         fprintf('✗ Error writing to H5 file: %s\n', ME.message);
     end
 end
-%%  Write to H5 file
-% if write_to_h5_file_flag
-%     fprintf('\n=== Writing to H5 File ===\n');
-%     processed_fields = fieldnames(Sensitivities.Comb);
-%     N_fields = length(processed_fields);
-% % 
-%     try
-%         write_field_to_h5_file(processed_fields, N_fields, Sensitivities.Comb, Sensitivities.Noz, LES.Comb, LES.Noz, Path.H5Outdir, h5filename);
-%         fprintf('✓ Successfully wrote to H5 file: %s/%s.h5\n', Path.H5Outdir, h5filename);
-%     catch ME
-%         fprintf('✗ Error writing to H5 file: %s\n', ME.message);
-%     end
-% end
