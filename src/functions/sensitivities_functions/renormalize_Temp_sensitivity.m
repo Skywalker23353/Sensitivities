@@ -8,8 +8,8 @@ function [SNST] = renormalize_Temp_sensitivity(SNST,CNST)
             fprintf("Normalizing %s \n",FName{j});
             SNST.(GridName).(FName{j})= factor .* SNST.(GridName).(FName{j});
 %             if strcmp(FName{j},'SYm_CH4')
-                max_val = max(max(abs(SNST.(GridName).(FName{j}))));
-                SNST.(GridName).(FName{j}) = SNST.(GridName).(FName{j}) ./ max_val;
+%                 max_val = max(max(abs(SNST.(GridName).(FName{j}))));
+%                 SNST.(GridName).(FName{j}) = SNST.(GridName).(FName{j}) ./ max_val;
 %             end
         end
     end

@@ -1,7 +1,7 @@
 field_configs = {
     % {field_name, Output_H5fieldName, latex_label}
-    'wT_p',  'wT_p', '(\dot{\omega}_T)_p';
-    'wT',  'wT_r', '(\dot{\omega}_T^{*}';
+    'wT_p',  'wTp', '(\dot{\omega}_T)_p';
+    'wT',  'wTr', '(\dot{\omega}_T_{r}';
     'Heatrelease',  'wTn', '\dot{\omega}_{T,n}';
     'Temperature',  'T', 'T';
     'density',  'rho', '\rho';

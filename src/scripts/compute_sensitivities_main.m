@@ -8,7 +8,7 @@ addpath('/work/home/satyam/satyam_files/CH4_jet_PF/2025_Runs/Sensitivities/confi
 write_to_h5_file_flag = true;
 plot_fields = false;
 plot_sensitivities_flag = false;
-h5filename = 'Reactants_36';
+h5filename = 'Reactants_37';
 % Load paths and constants
 sensitivity_constants_delc_0_1;  
 % Load input field configurations
@@ -25,8 +25,8 @@ Spline_fields = struct();
 [Spline_fields] = fit_spline_for_C_cond_data(Spline_fields,"Noz",field_configs, Path.InpDir2, C_MAT_n);
 [Spline_fields] = set_latex_labels(Spline_fields,field_configs);
 %% Interpolate from splines to LES grid
-[Spline_fields, LES] = interp_from_spline(Spline_fields,"Comb", LES,'type','dfdr');
-[Spline_fields, LES] = interp_from_spline(Spline_fields,"Noz", LES,'type','dfdr');
+[Spline_fields, LES] = interp_from_spline(Spline_fields,"Comb", LES,'type','dfdc_rz');
+[Spline_fields, LES] = interp_from_spline(Spline_fields,"Noz", LES,'type','dfdc_rz');
 %% Interpolate from splines to temporary grid
 [Spline_fields, LES] = interp_from_spline(Spline_fields,"Comb", LES,'type','dfdc');
 [Spline_fields, LES] = interp_from_spline(Spline_fields,"Noz", LES,'type','dfdc');
@@ -40,7 +40,7 @@ Spline_fields = struct();
 [Spline_fields] = normalize_spline_fields(Spline_fields, "Noz", Constant);
 %% Plot dfdr
 if plot_fields
-%     plot_dfdr(Spline_fields, LES, Constant);
+    plot_dfdr(Spline_fields, "Comb", LES, Constant);
 %         plot_dfdr(Spline_fields, LES, Constant,'grid','noz');
     plot_f(Spline_fields,"Comb", LES, Constant);
     plot_f(Spline_fields,"Noz", LES, Constant);

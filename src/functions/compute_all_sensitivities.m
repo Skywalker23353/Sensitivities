@@ -6,13 +6,13 @@ function [SNST] = compute_all_sensitivities(SNST, SPD, GridName, LES, CNST, fNam
     remove_spikes = p.Results.remove_spikes;
     % Main computation
     for j = 1:length(fName_numrtr)
-        numrtr = SPD.(fName_numrtr{j}).(GridName).dfdr;
+        numrtr = SPD.(fName_numrtr{j}).(GridName).dfdc_rz;
 
         for i = 1:length(fName_denom)
             i
             fName = sprintf('d%s_d%s',SPD.(fName_numrtr{j}).opname,SPD.(fName_denom{i}).opname);
     
-            denomtr = SPD.(fName_denom{i}).(GridName).dfdr;
+            denomtr = SPD.(fName_denom{i}).(GridName).dfdc_rz;
             
             snstvty = compute_sensitivities(numrtr,denomtr);
 

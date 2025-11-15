@@ -102,5 +102,5 @@ function write_field_to_h5_file(fieldNames,N_fields,comb_s,noz_s,comb,noz,outdir
         h5write(h5_filename,field_path_n,field_noz_3D);
     end
         % h5close();
-        fprintf("Written %d fields",i);
+        fprintf("Written %d fields\n",i);
 end
