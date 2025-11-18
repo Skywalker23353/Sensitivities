@@ -7,6 +7,7 @@ function [SNST] = compute_all_sensitivities(SNST, SPD, GridName, LES, CNST, fNam
     % Main computation
     for j = 1:length(fName_numrtr)
         numrtr = SPD.(fName_numrtr{j}).(GridName).dfdc_rz;
+        
 
         for i = 1:length(fName_denom)
             i
@@ -62,5 +63,9 @@ function [SNST] = compute_all_sensitivities(SNST, SPD, GridName, LES, CNST, fNam
             numrtr(replace_idx) = numrtr(1,1);
         end
         SNST.(GridName).(fName_numrtr{j}) = numrtr;
+        if strcmp(fName_numrtr{j},'Heatrelease')
+            numrtr2 = SPD.(fName_numrtr{j}).(GridName).f_rz;
+            SNST.(GridName).HRR_mean = numrtr2;
+        end
     end
 end

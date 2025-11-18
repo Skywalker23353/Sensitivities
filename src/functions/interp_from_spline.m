@@ -11,6 +11,11 @@ function [SPD, LES] = interp_from_spline(SPD, GridName, LES, varargin)
             field_name = field_names{i};
             SPD.(field_name).(GridName).(deriv_type) = interp_from_spline_on_2D_data(SPD.(field_name).(GridName).dpp, X_MAT);
         end
+    elseif strcmp(deriv_type,'f_rz')
+        for i = 1:length(field_names)
+            field_name = field_names{i};
+            SPD.(field_name).(GridName).(deriv_type) = interp_from_spline_on_2D_data(SPD.(field_name).(GridName).pp, X_MAT);
+        end
     elseif strcmp(deriv_type,'dfdc')
         x_vec = 0:1e-2:1;
         y_vec = Y_MAT(:,1);

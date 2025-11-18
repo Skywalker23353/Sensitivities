@@ -10,7 +10,7 @@ function [SPD] = normalize_spline_fields(SPD, GridName, CNST)
                 for j = 1:length(datasetNames)
                     dataset = SPD.(field_name).(GridName).(datasetNames{j});
                     if ~iscell(dataset)
-                        SPD.(field_name).(GridName).(datasetNames{j}) = (CNST.model_scaling_factor .* SPD.(field_name).(GridName).(datasetNames{j})) ./ CNST.omega_dot_T_scaling;
+                        SPD.(field_name).(GridName).(datasetNames{j}) = (CNST.model_scaling_factor .* dataset) ./ CNST.omega_dot_T_scaling;
                         fprintf("Normalising dataset %s as it is not a cell\n",datasetNames{j});
                     else
                         fprintf("Skipping dataset %s as a cell\n",datasetNames{j});
@@ -22,7 +22,7 @@ function [SPD] = normalize_spline_fields(SPD, GridName, CNST)
                 for j = 1:length(datasetNames)
                     dataset = SPD.(field_name).(GridName).(datasetNames{j});
                     if ~iscell(dataset)
-                        SPD.(field_name).(GridName).(datasetNames{j}) = (CNST.model_scaling_factor .* SPD.(field_name).(GridName).(datasetNames{j})) ./ CNST.omega_dot_T_scaling;
+                        SPD.(field_name).(GridName).(datasetNames{j}) = (CNST.model_scaling_factor .* dataset) ./ CNST.omega_dot_T_scaling;
                         fprintf("Normalising dataset %s as it is not a cell\n",datasetNames{j});
                     else
                         fprintf("Skipping dataset %s as a cell\n",datasetNames{j});
@@ -34,7 +34,7 @@ function [SPD] = normalize_spline_fields(SPD, GridName, CNST)
                 for j = 1:length(datasetNames)
                     dataset = SPD.(field_name).(GridName).(datasetNames{j});
                     if ~iscell(dataset)
-                        SPD.(field_name).(GridName).(datasetNames{j}) = (CNST.model_scaling_factor .* SPD.(field_name).(GridName).(datasetNames{j}).* CNST.V_ref) ./ CNST.Q_bar;
+                        SPD.(field_name).(GridName).(datasetNames{j}) = (CNST.model_scaling_factor .* dataset.* CNST.V_ref) ./ CNST.Q_bar;
                         fprintf("Normalising dataset %s as it is not a cell\n",datasetNames{j});
                     else
                         fprintf("Skipping dataset %s as a cell\n",datasetNames{j});
@@ -48,7 +48,7 @@ function [SPD] = normalize_spline_fields(SPD, GridName, CNST)
                 for j = 1:length(datasetNames)
                     dataset = SPD.(field_name).(GridName).(datasetNames{j});
                     if ~iscell(dataset)
-                        SPD.(field_name).(GridName).(datasetNames{j}) = (CNST.model_scaling_factor .* SPD.(field_name).(GridName).(datasetNames{j})) ./ CNST.T_ref;
+                        SPD.(field_name).(GridName).(datasetNames{j}) = (CNST.model_scaling_factor .* dataset) ./ CNST.T_ref;
                         fprintf("Normalising dataset %s as it is not a cell\n",datasetNames{j});
                     else
                         fprintf("Skipping dataset %s as a cell\n",datasetNames{j});
@@ -62,7 +62,7 @@ function [SPD] = normalize_spline_fields(SPD, GridName, CNST)
                 for j = 1:length(datasetNames)
                     dataset = SPD.(field_name).(GridName).(datasetNames{j});
                     if ~iscell(dataset)
-                        SPD.(field_name).(GridName).(datasetNames{j}) = (CNST.model_scaling_factor .* SPD.(field_name).(GridName).(datasetNames{j})) ./ CNST.rho_ref;
+                        SPD.(field_name).(GridName).(datasetNames{j}) = (CNST.model_scaling_factor .* dataset) ./ CNST.rho_ref;
                         fprintf("Normalising dataset %s as it is not a cell\n",datasetNames{j});
                     else
                         fprintf("Skipping dataset %s as a cell\n",datasetNames{j});
@@ -76,7 +76,7 @@ function [SPD] = normalize_spline_fields(SPD, GridName, CNST)
                 for j = 1:length(datasetNames)
                     dataset = SPD.(field_name).(GridName).(datasetNames{j});
                     if ~iscell(dataset)
-                        SPD.(field_name).(GridName).(datasetNames{j}) = (CNST.model_scaling_factor .* SPD.(field_name).(GridName).(datasetNames{j})) ./ CNST.omega_dot_k_scaling;
+                        SPD.(field_name).(GridName).(datasetNames{j}) = (CNST.model_scaling_factor .* dataset) ./ CNST.omega_dot_k_scaling;
                         fprintf("Normalising dataset %s as it is not a cell\n",datasetNames{j});
                     else
                         fprintf("Skipping dataset %s as a cell\n",datasetNames{j});

@@ -18,7 +18,7 @@ field_configs = {
     'CO2',  'CO2', 'Y_{CO2}';
     'H2O',  'H2O', 'Y_{H2O}';
 %     'N2',  'N2', 'Y_{N_2}';
-    'SYm_CH4',  'wCH4', '\dot{\omega}_{CH_4}';
+    'SYm_CH4',  'wCH4','\dot{\omega}_{CH_4}';
 %     'SYm_CH2O',  'wCH2O', '\dot{\omega}_{CH_2O}';
 %     'SYm_CH3',  'wCH3', '\dot{\omega}_{CH_3}';
 %     'SYm_CO',  'wCO', '\dot{\omega}_{CO}';

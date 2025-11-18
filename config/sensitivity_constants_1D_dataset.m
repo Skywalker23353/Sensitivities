@@ -1,8 +1,8 @@
 %% Paths
 Path.TempDir = '/work/home/satyam/satyam_files/CH4_jet_PF/2025_Runs/Sensitivities/data/raw/LES';
 Path.OutpDir = '/work/home/satyam/satyam_files/CH4_jet_PF/2025_Runs/Sensitivities/data/processed/sensitivities_10D_spline_0.1_T';
-Path.InpDir1 = '/work/home/satyam/satyam_files/CH4_jet_PF/2025_Runs/Sensitivities/data/raw//C_cond_fields_800_10D_0.1_T/Comb';
-Path.InpDir2 = '/work/home/satyam/satyam_files/CH4_jet_PF/2025_Runs/Sensitivities/data/raw//C_cond_fields_800_10D_0.1_T/Noz';
+Path.InpDir1 = '/work/home/satyam/satyam_files/CH4_jet_PF/2025_Runs/Sensitivities/data/raw/1D_dataset/Comb';
+Path.InpDir2 = '/work/home/satyam/satyam_files/CH4_jet_PF/2025_Runs/Sensitivities/data/raw/1D_dataset/Noz';
 Path.H5Outdir = '/work/home/satyam/satyam_files/CH4_jet_PF/2025_Runs/LES_base_case_v6/filtering_run3/sensitivities/10D_spline_with_wTp'; %/reshaped
 if ~isfolder(Path.H5Outdir); mkdir(Path.H5Outdir);end
 %% Filenames

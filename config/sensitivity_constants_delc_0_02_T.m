@@ -1,8 +1,8 @@
 %% Paths
 Path.TempDir = '/work/home/satyam/satyam_files/CH4_jet_PF/2025_Runs/Sensitivities/data/raw/LES';
 Path.OutpDir = '/work/home/satyam/satyam_files/CH4_jet_PF/2025_Runs/Sensitivities/data/processed/sensitivities_10D_spline_0.1_T';
-Path.InpDir1 = '/work/home/satyam/satyam_files/CH4_jet_PF/2025_Runs/Sensitivities/data/raw//C_cond_fields_800_10D_0.1_T/Comb';
-Path.InpDir2 = '/work/home/satyam/satyam_files/CH4_jet_PF/2025_Runs/Sensitivities/data/raw//C_cond_fields_800_10D_0.1_T/Noz';
+Path.InpDir1 = '/work/home/satyam/satyam_files/CH4_jet_PF/2025_Runs/Sensitivities/data/raw//C_cond_fields_800_10D_0.02_T/Comb';
+Path.InpDir2 = '/work/home/satyam/satyam_files/CH4_jet_PF/2025_Runs/Sensitivities/data/raw//C_cond_fields_800_10D_0.02_T/Noz';
 Path.H5Outdir = '/work/home/satyam/satyam_files/CH4_jet_PF/2025_Runs/LES_base_case_v6/filtering_run3/sensitivities/10D_spline_with_wTp'; %/reshaped
 if ~isfolder(Path.H5Outdir); mkdir(Path.H5Outdir);end
 %% Filenames
@@ -36,7 +36,7 @@ Constant.dN = 0;
 
 %%
 load(fullfile(Path.TempDir,'comb_interpolted_hrr_field_10D.mat'),"model_scaling_factor"); % hrr scaling factor
-Constant.model_scaling_factor = 1;%model_scaling_factor; clear model_scaling_factor;
+Constant.model_scaling_factor = model_scaling_factor; clear model_scaling_factor;
 
 %%
 Constant.V_ref = (Constant.l_ref)^3;

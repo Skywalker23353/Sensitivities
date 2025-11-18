@@ -9,11 +9,11 @@ function [LES,CNST] = load_LES_mean_data(CNST,PATH,FILENAME,FNAME)
     LES.Comb.C_field = (CNST.Yu - LES.Comb.MeanField.(FNAME))/(CNST.Yu - CNST.Yb);
     LES.Noz.C_field = (CNST.Yu - LES.Noz.MeanField.(FNAME))/(CNST.Yu - CNST.Yb);
     
-%     LES.Comb.C_field(LES.Comb.C_field >= CNST.c_ref_mx) = CNST.c_ref_mx;
-%     LES.Noz.C_field(LES.Noz.C_field >= CNST.c_ref_mx) = CNST.c_ref_mx;
+    LES.Comb.C_field(LES.Comb.C_field >= CNST.c_ref_mx) = CNST.c_ref_mx;
+    LES.Noz.C_field(LES.Noz.C_field >= CNST.c_ref_mx) = CNST.c_ref_mx;
     
-%     LES.Comb.C_field(LES.Comb.C_field < CNST.c_ref_mn) = CNST.c_ref_mn;
-%     LES.Noz.C_field(LES.Noz.C_field < CNST.c_ref_mn) = CNST.c_ref_mn;
+    LES.Comb.C_field(LES.Comb.C_field < CNST.c_ref_mn) = CNST.c_ref_mn;
+    LES.Noz.C_field(LES.Noz.C_field < CNST.c_ref_mn) = CNST.c_ref_mn;
     
     % Apply Z restriction logic
     Z_idx_mx = find((Z1)/CNST.D >= CNST.zmx, 1);
