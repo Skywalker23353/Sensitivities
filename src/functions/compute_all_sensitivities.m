@@ -1,4 +1,4 @@
-function [SNST] = compute_chem_src_term_sensitivities(SNST, SPD, GridName, LES, CNST, fName_numrtr, fName_denom,varargin)
+function [SNST] = compute_all_sensitivities(SNST, SPD, GridName, LES, CNST, fName_numrtr, fName_denom,varargin)
     % Input parsing for optional remove_spikes
     p = inputParser;
     addParameter(p,'remove_spikes',false, @(x) islogical(x) || isnumeric(x));
@@ -6,13 +6,14 @@ function [SNST] = compute_chem_src_term_sensitivities(SNST, SPD, GridName, LES, 
     remove_spikes = p.Results.remove_spikes;
     % Main computation
     for j = 1:length(fName_numrtr)
-        numrtr = SPD.(fName_numrtr{j}).(GridName).dfdr;
+        numrtr = SPD.(fName_numrtr{j}).(GridName).dfdc_rz;
+        
 
         for i = 1:length(fName_denom)
             i
             fName = sprintf('d%s_d%s',SPD.(fName_numrtr{j}).opname,SPD.(fName_denom{i}).opname);
     
-            denomtr = SPD.(fName_denom{i}).(GridName).dfdr;
+            denomtr = SPD.(fName_denom{i}).(GridName).dfdc_rz;
             
             snstvty = compute_sensitivities(numrtr,denomtr);
 
@@ -62,5 +63,9 @@ function [SNST] = compute_chem_src_term_sensitivities(SNST, SPD, GridName, LES, 
             numrtr(replace_idx) = numrtr(1,1);
         end
         SNST.(GridName).(fName_numrtr{j}) = numrtr;
+        if strcmp(fName_numrtr{j},'Heatrelease')
+            numrtr2 = SPD.(fName_numrtr{j}).(GridName).f_rz;
+            SNST.(GridName).HRR_mean = numrtr2;
+        end
     end
 end

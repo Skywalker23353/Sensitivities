@@ -1,4 +1,4 @@
-function [LES,CNST] = load_LES_mean_data(CNST,PATH,FILENAME,FNAME)
+function [LES,CNST] = load_LES_mean_and_rms_data(CNST,PATH,FILENAME,FNAME)
     LES.Comb.MeanField = load(fullfile(PATH.TempDir, FILENAME.LES_comb_file));
     LES.Noz.MeanField = load(fullfile(PATH.TempDir, FILENAME.LES_noz_file));
     % Load structured grid coordinates
@@ -14,6 +14,9 @@ function [LES,CNST] = load_LES_mean_data(CNST,PATH,FILENAME,FNAME)
     
     LES.Comb.C_field(LES.Comb.C_field < CNST.c_ref_mn) = CNST.c_ref_mn;
     LES.Noz.C_field(LES.Noz.C_field < CNST.c_ref_mn) = CNST.c_ref_mn;
+
+    LES.Comb.C_rms = get_C_rms_field(LES.Comb,CNST);
+    LES.Noz.C_rms = get_C_rms_field(LES.Noz,CNST);
     
     % Apply Z restriction logic
     Z_idx_mx = find((Z1)/CNST.D >= CNST.zmx, 1);

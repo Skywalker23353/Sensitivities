@@ -10,7 +10,7 @@ plot_fields = false;
 plot_sensitivities_flag = false;
 h5filename = 'Reactants_40';
 % Load paths and constants
-sensitivity_constants_delc_0_1;  
+sensitivity_constants_1D_dataset;  
 % Load input field configurations
 C_cond_field_name_with_all_minor; 
 % Load LES data
@@ -22,29 +22,25 @@ Spline_fields = struct();
 [Spline_fields] = fit_spline_for_C_cond_data(Spline_fields,"Comb",field_configs, Path.InpDir1, C_MAT);
 [Spline_fields] = set_latex_labels(Spline_fields,field_configs);
 [C_MAT_n, ~] = get_C_cond_CZ_data(Path.InpDir2);
-[Spline_fields] = fit_spline_for_C_cond_data(Spline_fields,"Noz",field_configs, Path.InpDir2, C_MAT_n);
-[Spline_fields] = set_latex_labels(Spline_fields,field_configs);
+% [Spline_fields] = fit_spline_for_C_cond_data(Spline_fields,"Noz",field_configs, Path.InpDir2, C_MAT_n);
+% [Spline_fields] = set_latex_labels(Spline_fields,field_configs);
 %% Interpolate from splines to LES grid
 [Spline_fields, LES] = interp_from_spline(Spline_fields,"Comb", LES,'type','dfdc_rz');
-[Spline_fields, LES] = interp_from_spline(Spline_fields,"Noz", LES,'type','dfdc_rz');
+% [Spline_fields, LES] = interp_from_spline(Spline_fields,"Noz", LES,'type','dfdc_rz');
 %% Interpolate from splines to temporary grid
 [Spline_fields, LES] = interp_from_spline(Spline_fields,"Comb", LES,'type','dfdc');
-[Spline_fields, LES] = interp_from_spline(Spline_fields,"Noz", LES,'type','dfdc');
+% [Spline_fields, LES] = interp_from_spline(Spline_fields,"Noz", LES,'type','dfdc');
 %% Interpolate from splines to temporary grid
 [Spline_fields, LES] = interp_from_spline(Spline_fields,"Comb", LES,'type','f');
-[Spline_fields, LES] = interp_from_spline(Spline_fields,"Noz", LES,'type','f');
-%%
-[Spline_fields, LES] = interp_from_spline(Spline_fields,"Comb", LES,'type','f_rz');
-[Spline_fields, LES] = interp_from_spline(Spline_fields,"Noz", LES,'type','f_rz');
+% [Spline_fields, LES] = interp_from_spline(Spline_fields,"Noz", LES,'type','f');
 %% ADD HeatreleaseNorm field
 % [Spline_fields] = add_hrr_norm_field(Spline_fields);
 %% Normalize fields
-% [Spline_fields] = normalize_spline_fields(Spline_fields, "Comb", Constant);
+[Spline_fields] = normalize_spline_fields(Spline_fields, "Comb", Constant);
 % [Spline_fields] = normalize_spline_fields(Spline_fields, "Noz", Constant);
 %% Plot dfdr
 if plot_fields
     plot_dfdr(Spline_fields, "Comb", LES, Constant);
-        plot_f_rz(Spline_fields, "Comb", LES, Constant);
 %         plot_dfdr(Spline_fields, LES, Constant,'grid','noz');
     plot_f(Spline_fields,"Comb", LES, Constant);
     plot_f(Spline_fields,"Noz", LES, Constant);

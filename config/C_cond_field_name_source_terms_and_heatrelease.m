@@ -1,23 +1,8 @@
 field_configs = {
     % {field_name, Output_H5fieldName, latex_label}
-    'wT_p',  'wTp', '(\dot{\omega}_T)_p';
-%     'wT',  'wTr', '(\dot{\omega}_T_{r}';
+%     'wT_p',  'wTp', '(\dot{\omega}_T)_p';
+    'CH4','CH4','Y_{CH_4}';
 %     'Heatrelease',  'wTn', '\dot{\omega}_{T,n}';
-%     'Temperature',  'T', 'T';
-%     'density',  'rho', '\rho';
-%     'CH4',  'CH4', 'Y_{CH4}';
-%     'CH2O',  'CH2O', 'Y_{CH2O}';
-%     'CH3',  'CH3', 'Y_{CH3}';
-%     'CO',  'CO', 'Y_{CO}';
-%     'H',  'H', 'Y_{H}';
-%     'H2',  'H2', 'Y_{H_2}';
-%     'HO2',  'HO2', 'Y_{HO_2}';
-%     'O2',  'O2', 'Y_{O_2}';
-%     'O',  'O', 'Y_{O}';
-%     'OH',  'OH', 'Y_{OH}';
-%     'CO2',  'CO2', 'Y_{CO2}';
-%     'H2O',  'H2O', 'Y_{H2O}';
-%     'N2',  'N2', 'Y_{N_2}';
 %     'SYm_CH4',  'wCH4','\dot{\omega}_{CH_4}';
 %     'SYm_CH2O',  'wCH2O', '\dot{\omega}_{CH_2O}';
 %     'SYm_CH3',  'wCH3', '\dot{\omega}_{CH_3}';

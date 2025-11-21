@@ -1,4 +1,4 @@
-function [SNST] = compute_hrr_src_term_sensitivities(SNST, SPD, LES, CNST, fName_numrtr, fName_denom, varargin)
+function [SNST] = compute_hrr_src_term_sensitivities(SNST, SPD, GridName, LES, CNST, fName_numrtr, fName_denom, varargin)
     % Input parsing for optional threshold
     threshold_passed = any(strcmp(varargin(1:2:end),'threshold'));
     if ~threshold_passed
@@ -11,14 +11,17 @@ function [SNST] = compute_hrr_src_term_sensitivities(SNST, SPD, LES, CNST, fName
     end
     % Main computation
 
-    numrtr = SPD.(fName_numrtr).comb.dfdr;
+    numrtr = SPD.(fName_numrtr).(GridName).dfdr;
     
     for i = 1:length(fName_denom)
         fName = sprintf('d%s_d%s',SPD.(fName_numrtr).opname,SPD.(fName_denom{i}).opname);
 
-        denomtr = SPD.(fName_denom{i}).comb.dfdr;
+        denomtr = SPD.(fName_denom{i}).(GridName).dfdr;
 
         snstvty = compute_sensitivities(numrtr,denomtr);
+
+%         snstvty = remove_spikes_interp2D(snstvty, 10);
+%         snstvty_n = remove_spikes_interp2D(snstvty_n,10);
 
         % Limit sensitivities to avoid outliers
         if threshold_passed && strcmp(fName_denom{i},'Temperature') && isfield(threshold,'dT')
@@ -29,12 +32,36 @@ function [SNST] = compute_hrr_src_term_sensitivities(SNST, SPD, LES, CNST, fName
         end
 
         % Replace values outside C bounds with boundary sensitivities
-        replace_idx = LES.Comb.C_field >= CNST.c_ref_mx;
-        snstvty(replace_idx) = snstvty(CNST.z_ref_idx,CNST.r_ref_idx);
-        replace_idx = LES.Comb.C_field <= CNST.c_ref_mn;
-        snstvty(replace_idx) = snstvty(1,1);
+        if ~strcmp(GridName,'Noz')
+            if strcmp(fName_denom{i},'CH4')
+                replace_idx = LES.(GridName).C_field >= CNST.CH4_c_ref_mx;
+                snstvty(replace_idx) = snstvty(CNST.CH4_z_ref_idx,CNST.CH4_r_ref_idx);
+    
+                clear replace_idx;
+                replace_idx = LES.(GridName).C_field <= CNST.c_ref_mn;
+                snstvty(replace_idx) = snstvty(1,1);
+    
+    
+            else
+                replace_idx = LES.(GridName).C_field >= CNST.c_ref_mx;
+                snstvty(replace_idx) = snstvty(CNST.z_ref_idx,CNST.r_ref_idx);
+    
+                replace_idx = LES.(GridName).C_field <= CNST.c_ref_mn;
+                snstvty(replace_idx) = snstvty(1,1);
+    
+            end
+        end
 
         snstvty = apply_smoothing_ignore_boundaries_1(snstvty,3,'all',1,1);
-        SNST.comb.(fName) =  snstvty;
+
+        SNST.(GridName).(fName) =  snstvty;
     end
+    if ~strcmp(GridName,'Noz')
+        replace_idx = LES.(GridName).C_field >= CNST.c_ref_mx;
+        numrtr(replace_idx) = numrtr(CNST.z_ref_idx,CNST.r_ref_idx);
+    
+        replace_idx = LES.(GridName).C_field <= CNST.c_ref_mn;
+        numrtr(replace_idx) = numrtr(1,1);
+    end
+    SNST.(GridName).(fName_numrtr) = numrtr;
 end
