@@ -1,6 +1,6 @@
 function [SNST] = renormalize_Temp_sensitivity(SNST,CNST)
     GridsNames = fieldnames(SNST);
-    FName = {'wT_p';'wT';'Heatrelease';'SYm_CH4';'SYm_O2';'SYm_CO2';'SYm_H2O'};
+    FName = {'wT_p';'Heatrelease';'SYm_CH4';'SYm_O2';'SYm_CO2';'SYm_H2O'};
     factor = (CNST.Yu)/(CNST.Yb - CNST.Yu);
     for i = 1:length(GridsNames)
         GridName = GridsNames{i}

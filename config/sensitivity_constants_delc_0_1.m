@@ -7,7 +7,7 @@ Path.H5Outdir = '/work/home/satyam/satyam_files/CH4_jet_PF/2025_Runs/LES_base_ca
 if ~isfolder(Path.H5Outdir); mkdir(Path.H5Outdir);end
 %% Filenames
 Filename.LES_comb_file = 'interp_16_unilat_structured_pl_combustor_domain/interp_fields/Mean_field_azim_avg';
-Filename.LES_noz_file = 'interp_16_unilat_structured_pl_nozzle_domain_with_zero/interp_fields/YO2_field_structured_grid_16_planes_1011260202_avg';
+Filename.LES_noz_file = 'interp_16_unilat_structured_pl_nozzle_domain_with_zero/interp_fields/Mean_field_azim_avg';
 %% Constants
 Constant.D = 2e-3;
 Constant.window = 3; % Window size for smoothing
@@ -23,7 +23,7 @@ Constant.U_ref = 65;
 Constant.Q_bar = 163;
 
 %%
-Constant.c_ref_mx = 1.00; 
+Constant.c_ref_mx = 1.0; 
 Constant.c_ref_mn = 0.0;
 Constant.CH4_c_ref_mx = 0.80; 
 Constant.CH4_c_ref_mn = 0.01;
@@ -35,8 +35,8 @@ Constant.d0 = 0;
 Constant.dN = 0;
 
 %%
-load(fullfile(Path.TempDir,'comb_interpolted_hrr_field_10D.mat'),"model_scaling_factor"); % hrr scaling factor
-Constant.model_scaling_factor = 1;%model_scaling_factor; clear model_scaling_factor;
+load(fullfile(Path.TempDir,'F_FDM_Z10D_R5D.mat'),"F_FDM"); % hrr scaling factor
+Constant.model_scaling_factor = F_FDM; clear F_FDM;
 
 %%
 Constant.V_ref = (Constant.l_ref)^3;
